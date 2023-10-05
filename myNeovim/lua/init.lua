@@ -278,24 +278,9 @@ require("lazy").setup({
                     ["<C-l>"] = cmp.mapping.complete()
                 }
             })
-            -- local null_ls = require("null-ls")
-            --
-            -- null_ls.setup({
-            --     sources = {
-            --         -- Here you can add tools not supported by mason.nvim
-            --         -- make sure the source name is supported by null-ls
-            --         -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
-            --     },
-            -- })
-            -- -- See mason-null-ls.nvim's documentation for more details:
-            -- -- https://github.com/jay-babu/mason-null-ls.nvim#setup
-            -- require("mason-null-ls").setup({
-            --     ensure_installed = nil,
-            --     automatic_installation = true, -- You can still set this to `true`
-            --     handlers = {},
-            -- })
 
-            -- vim.cmd([[autocmd BufWritePre * LspZeroFormat]])
+             vim.lsp.set_log_level("off")
+             --vim.lsp.set_log_level("debug")
         end
     }, {"LhKipp/nvim-nu", config = function() require'nu'.setup {} end}, {
         -- REMEBER to do TSInstall for new langs, also note it binary tree-sitter-cli
