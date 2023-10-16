@@ -313,16 +313,21 @@ require("lazy").setup({
                         return item
                     end
                 },
-                mapping = {
+                mapping = cmp.mapping.preset.insert({
+                    ["<TAB>"]= cmp.mapping.select_next_item(),
+                    ["<S-TAB>"]= cmp.mapping.select_prev_item(),
+                    ["<>"]= cmp.mapping.select_next_item(),
                     ["<CR>"] = cmp.mapping.confirm({select = false}),
                     ["<C-l>"] = cmp.mapping.complete()
-                },
+                }),
                 snippet = {
                     expand = function(args)
                         require('luasnip').lsp_expand(args.body)
                     end
                 }
             })
+
+            
 
             vim.diagnostic.config({virtual_text = true})
             vim.lsp.set_log_level("off")
