@@ -184,7 +184,7 @@ require("lazy").setup({
         opts = {port = 8000, host = "localhost"}
     }, {
         "lmburns/lf.nvim",
-        lazy=false,
+        lazy = false,
         dependencies = "akinsho/toggleterm.nvim",
         config = function()
             -- This feature will not work if the plugin is lazy-loaded
@@ -214,28 +214,66 @@ require("lazy").setup({
         lazy = false,
         dependencies = {"kyazdani42/nvim-web-devicons", "folke/lsp-colors.nvim"}
     }, {"sbdchd/neoformat", lazy = false}, {
-        "VonHeikemen/lsp-zero.nvim",
+        "neovim/nvim-lspconfig",
         dependencies = {
-            "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path", "saadparwaiz1/cmp_luasnip",
-            "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-nvim-lua", "L3MON4D3/LuaSnip",
+            "hrsh7th/nvim-cmp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path",
+            "saadparwaiz1/cmp_luasnip", "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-nvim-lua", "L3MON4D3/LuaSnip",
             "rafamadriz/friendly-snippets"
         },
         config = function()
-            local lsp = require("lsp-zero")
-            lsp.preset("recommended")
-            lsp.on_attach(function(client, bufnr)
-                lsp.default_keymaps({buffer = bufnr})
-            end)
-            lsp.nvim_workspace()
+            local lspconfig = require('lspconfig')
+            local lsp_defaults = lspconfig.util.default_config
 
-            -- listing servers
-            -- lsp.setup_servers({ "yamlfmt", "yamllint",
-            --     "sql-formatter" })
-            --
-            vim.lsp.set_log_level("debug")
+            local cap = vim.tbl_deep_extend('force', lsp_defaults.capabilities,
+                                            require('cmp_nvim_lsp').default_capabilities())
+            lsp_defaults.capabilities = cap
+            vim.api.nvim_create_autocmd('LspAttach', {
+                desc = 'LSP actions',
+                callback = function(event)
+                    local opts = {buffer = event.buf}
+
+                    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>',
+                                   opts)
+                    vim.keymap.set('n', 'gd',
+                                   '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+                    vim.keymap.set('n', 'gD',
+                                   '<cmd>lua vim.lsp.buf.declaration()<cr>',
+                                   opts)
+                    vim.keymap.set('n', 'gi',
+                                   '<cmd>lua vim.lsp.buf.implementation()<cr>',
+                                   opts)
+                    vim.keymap.set('n', 'go',
+                                   '<cmd>lua vim.lsp.buf.type_definition()<cr>',
+                                   opts)
+                    vim.keymap.set('n', 'gr',
+                                   '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+                    vim.keymap.set('n', 'gs',
+                                   '<cmd>lua vim.lsp.buf.signature_help()<cr>',
+                                   opts)
+                    vim.keymap.set('n', '<F2>',
+                                   '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+                    vim.keymap.set({'n', 'x'}, '<F3>',
+                                   '<cmd>lua vim.lsp.buf.format({async = true})<cr>',
+                                   opts)
+                    vim.keymap.set('n', '<F4>',
+                                   '<cmd>lua vim.lsp.buf.code_action()<cr>',
+                                   opts)
+
+                    vim.keymap.set('n', 'gl',
+                                   '<cmd>lua vim.diagnostic.open_float()<cr>',
+                                   opts)
+                    vim.keymap.set('n', '[d',
+                                   '<cmd>lua vim.diagnostic.goto_prev()<cr>',
+                                   opts)
+                    vim.keymap.set('n', ']d',
+                                   '<cmd>lua vim.diagnostic.goto_next()<cr>',
+                                   opts)
+                end
+            })
+
             require'lspconfig'.astro.setup {
-                -- reqiores pnpm i -D @astrojs/language-server typescript
+                -- requires pnpm i -D @astrojs/language-server typescript
                 cmd = {"pnpm", "astro-ls", "--stdio"}
             }
             require'lspconfig'.clangd.setup {}
@@ -244,15 +282,17 @@ require("lazy").setup({
             require'lspconfig'.tsserver.setup {}
             require'lspconfig'.eslint.setup {}
             require'lspconfig'.gopls.setup {}
-            require'lspconfig'.rust_analyzer.setup {}
+            require'lspconfig'.rust_analyzer.setup {
+                -- requrie cargo and rustc in path
+            }
             require'lspconfig'.terraformls.setup {}
             vim.api.nvim_create_autocmd({"BufWritePre"}, {
                 pattern = {"*.tf", "*.tfvars"},
                 callback = function() vim.lsp.buf.format() end
             })
-            lsp.setup()
-            vim.diagnostic.config({virtual_text = true})
-            local cmp = require("cmp")
+
+            local cmp = require('cmp')
+
             cmp.setup({
                 sources = {
                     {name = 'path'}, {name = 'nvim_lsp', keyword_length = 1},
@@ -276,11 +316,17 @@ require("lazy").setup({
                 mapping = {
                     ["<CR>"] = cmp.mapping.confirm({select = false}),
                     ["<C-l>"] = cmp.mapping.complete()
+                },
+                snippet = {
+                    expand = function(args)
+                        require('luasnip').lsp_expand(args.body)
+                    end
                 }
             })
 
-             vim.lsp.set_log_level("off")
-             --vim.lsp.set_log_level("debug")
+            vim.diagnostic.config({virtual_text = true})
+            vim.lsp.set_log_level("off")
+            -- vim.lsp.set_log_level("debug")
         end
     }, {"LhKipp/nvim-nu", config = function() require'nu'.setup {} end}, {
         -- REMEBER to do TSInstall for new langs, also note it binary tree-sitter-cli
