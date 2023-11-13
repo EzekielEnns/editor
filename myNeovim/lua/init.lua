@@ -276,6 +276,10 @@ require("lazy").setup({
                 -- requires pnpm i -D @astrojs/language-server typescript
                 cmd = {"pnpm", "astro-ls", "--stdio"}
             }
+            require'lspconfig'.tailwindcss.setup {
+                -- requires pnpm i -D @astrojs/language-server typescript
+                cmd = {"pnpm", "tailwindcss-language-server", "--stdio"}
+            }
             require'lspconfig'.clangd.setup {}
             require'lspconfig'.statix.setup {}
             require'lspconfig'.marksman.setup {}
@@ -285,6 +289,7 @@ require("lazy").setup({
             require'lspconfig'.rust_analyzer.setup {
                 -- requrie cargo and rustc in path
             }
+
             require'lspconfig'.terraformls.setup {}
             vim.api.nvim_create_autocmd({"BufWritePre"}, {
                 pattern = {"*.tf", "*.tfvars"},
