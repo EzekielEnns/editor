@@ -26,7 +26,9 @@
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
+            ruff
             vimPlugins.nvim-treesitter-parsers.astro
+            python310Packages.python-lsp-server
             statix
             marksman
             terraform-ls

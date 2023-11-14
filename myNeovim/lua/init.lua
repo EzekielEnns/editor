@@ -287,8 +287,9 @@ require("lazy").setup({
             require'lspconfig'.eslint.setup {}
             require'lspconfig'.gopls.setup {}
             require'lspconfig'.rust_analyzer.setup {
-                -- requrie cargo and rustc in path
-            }
+            --pythong
+            require'lspconfig'.pylsp.setup{}
+            require'lspconfig'.ruff_lsp.setup{}
 
             require'lspconfig'.terraformls.setup {}
             vim.api.nvim_create_autocmd({"BufWritePre"}, {
