@@ -286,7 +286,7 @@ require("lazy").setup({
             require'lspconfig'.tsserver.setup {}
             require'lspconfig'.eslint.setup {}
             require'lspconfig'.gopls.setup {}
-            require'lspconfig'.rust_analyzer.setup {
+            require'lspconfig'.rust_analyzer.setup {}
             --pythong
             require'lspconfig'.pylsp.setup{}
             require'lspconfig'.ruff_lsp.setup{}
