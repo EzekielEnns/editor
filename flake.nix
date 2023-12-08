@@ -51,15 +51,13 @@
             # lang servers 
             marksman
             python311Packages.python-lsp-server
-            typescript-language-server
+            nodePackages_latest.typescript-language-server
             gopls
             terraform-ls
             nil
-            OmniSharp
-            clangd
-            vscode-json-language-server
-            vscode-html-language-server
-            vscode-css-language-server
+#            OmniSharp
+ #           clangd
+            vscode-langservers-extracted
           ];
         };
       });
