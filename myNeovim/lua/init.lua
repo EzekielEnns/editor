@@ -290,6 +290,7 @@ require("lazy").setup({
             --pythong
             require'lspconfig'.pylsp.setup{}
             require'lspconfig'.ruff_lsp.setup{}
+
             require'lspconfig'.terraformls.setup {}
             vim.api.nvim_create_autocmd({"BufWritePre"}, {
                 pattern = {"*.tf", "*.tfvars"},
