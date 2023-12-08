@@ -55,6 +55,7 @@
             gopls
             terraform-ls
             nil
+             helix
 #            OmniSharp
  #           clangd
             vscode-langservers-extracted
