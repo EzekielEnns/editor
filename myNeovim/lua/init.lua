@@ -57,6 +57,17 @@ vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappin
 require("lazy").setup({
     -- STYLE
     {
+        --TODO SETUP
+        "kiyoon/jupynium.nvim",
+        build = "pip3 install --user ."
+        -- build = "conda run --no-capture-output -n jupynium pip install .",
+        -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
+        config = function () 
+            require("jupynium").setup()
+        end
+    }, "rcarriga/nvim-notify", -- optional
+    "stevearc/dressing.nvim", -- optional, UI for :JupyniumKernelSelect
+    {
         "kyazdani42/nvim-web-devicons",
         config = function()
             require("nvim-web-devicons").setup({
@@ -287,10 +298,16 @@ require("lazy").setup({
             require'lspconfig'.eslint.setup {}
             require'lspconfig'.gopls.setup {}
             require'lspconfig'.rust_analyzer.setup {}
+<<<<<<< HEAD
             --pythong
             require'lspconfig'.pylsp.setup{}
             require'lspconfig'.ruff_lsp.setup{}
 
+=======
+            -- pythong
+            require'lspconfig'.pylsp.setup {}
+            require'lspconfig'.ruff_lsp.setup {}
+>>>>>>> b3830e0 (screw it lets use helix)
             require'lspconfig'.terraformls.setup {}
             vim.api.nvim_create_autocmd({"BufWritePre"}, {
                 pattern = {"*.tf", "*.tfvars"},
@@ -320,9 +337,9 @@ require("lazy").setup({
                     end
                 },
                 mapping = cmp.mapping.preset.insert({
-                    ["<TAB>"]= cmp.mapping.select_next_item(),
-                    ["<S-TAB>"]= cmp.mapping.select_prev_item(),
-                    ["<>"]= cmp.mapping.select_next_item(),
+                    ["<TAB>"] = cmp.mapping.select_next_item(),
+                    ["<S-TAB>"] = cmp.mapping.select_prev_item(),
+                    ["<>"] = cmp.mapping.select_next_item(),
                     ["<CR>"] = cmp.mapping.confirm({select = false}),
                     ["<C-l>"] = cmp.mapping.complete()
                 }),
@@ -332,8 +349,6 @@ require("lazy").setup({
                     end
                 }
             })
-
-            
 
             vim.diagnostic.config({virtual_text = true})
             vim.lsp.set_log_level("off")
