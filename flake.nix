@@ -50,7 +50,7 @@
 
             # lang servers 
             marksman
-            pylsp
+            python311Packages.python-lsp-server
             typescript-language-server
             gopls
             terraform-ls
