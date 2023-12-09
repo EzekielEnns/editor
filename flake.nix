@@ -52,6 +52,7 @@
             marksman
             python311Packages.python-lsp-server
             nodePackages_latest.typescript-language-server
+            tailwindcss-language-server
             gopls
             terraform-ls
             nil
