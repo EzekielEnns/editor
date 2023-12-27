@@ -1,9 +1,9 @@
 {
   description = "my editor config flake";
   inputs = {
-  nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+      nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
   };
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
 
@@ -13,12 +13,22 @@
           src = ./myNeovim;
           recursive = true;
         };
+        # TODO add markdown plugin
+        # vim-theme-purify = pkgs.vimUtils.buildVimPlugin {
+        #     name= "vim-purify";
+        #     src = pkgs.fetchFromGitHub {
+        #         repo = "purify";
+        #         owner = "kyoz";
+        #         rev = "70011ccc3225feb2e7bedda36d226adcf221f7ae/vim";
+        #         sha256 = "sha256-QR8O9QtPxrvRKo8PcwSLG3f6z+59xCX3KC6C3VLOMBA=";
+        #     };
+        # };
         myNeovim = pkgs.neovim.override {
           configure = {
             customRC = ''
               lua require("init")
             '';
-            packages.myPlugins = {
+            packages.myPlugins = /*with pkgs.vimPlugins*/ {
               start = [ 
                 pkgs.vimPlugins.telescope-nvim
                 pkgs.vimPlugins.nvim-treesitter
