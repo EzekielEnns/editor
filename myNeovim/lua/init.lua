@@ -98,7 +98,7 @@ require'lspconfig'.ruff_lsp.setup {}
 require'lspconfig'.terraformls.setup {}
 require'lspconfig'.lua_ls.setup{}
 require'lspconfig'.omnisharp.setup{
-    cmd = {"OmniSharp", "--languageserver"},
+    cmd = {"OmniSharp", "--languageserver", "--hostPID",tostring(vim.fn.getpid())},
 }
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
     pattern = {"*.tf", "*.tfvars"},
