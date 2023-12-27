@@ -28,31 +28,50 @@
             customRC = ''
               lua require("init")
             '';
-            packages.myPlugins = /*with pkgs.vimPlugins*/ {
+            packages.myPlugins = with pkgs.vimPlugins; {
               start = [ 
-                pkgs.vimPlugins.telescope-nvim
-                pkgs.vimPlugins.nvim-treesitter
-                pkgs.vimPlugins.nvim-treesitter.withAllGrammars
-                pkgs.vimPlugins.nvim-treesitter-textobjects
-                pkgs.vimPlugins.nvim-lspconfig 
-                pkgs.vimPlugins.trouble-nvim
+                nvim-treesitter
+                nvim-treesitter.withAllGrammars
+                nvim-treesitter-textobjects
+                # nvim-treesitter-parsers.astro
+                # nvim-treesitter-parsers.go
+                # nvim-treesitter-parsers.rust
+                # nvim-treesitter-parsers.markdown
+                (nvim-treesitter.withPlugins (
+                   plugins: with plugins; [
+                    nix
+                    python
+                    astro
+                    rust
+                    html
+                    typescript
+                    c
+                    go
+                    sql
+                    markdown
+                   ]
+                ))
+
+                nvim-lspconfig 
+                trouble-nvim
+                telescope-nvim
 
                 
-                pkgs.vimPlugins.nvim-cmp
-                pkgs.vimPlugins.cmp-nvim-lsp
-                pkgs.vimPlugins.cmp-buffer
-                pkgs.vimPlugins.cmp-cmdline 
-                pkgs.vimPlugins.cmp-path
-                pkgs.vimPlugins.formatter-nvim 
-                pkgs.vimPlugins.cmp_luasnip
-                pkgs.vimPlugins.vim-vsnip
-                pkgs.vimPlugins.nvim-web-devicons 
-                pkgs.vimPlugins.lualine-nvim
-                pkgs.vimPlugins.papercolor-theme
-                pkgs.vimPlugins.vim-gitgutter
-                pkgs.vimPlugins.which-key-nvim
+                nvim-cmp
+                cmp-nvim-lsp
+                cmp-buffer
+                cmp-cmdline 
+                cmp-path
+                formatter-nvim 
+                cmp_luasnip
+                vim-vsnip
+                nvim-web-devicons 
+                lualine-nvim
+                papercolor-theme
+                vim-gitgutter
+                which-key-nvim
 
-                pkgs.vimPlugins.comment-nvim
+                comment-nvim
                 myConfig 
               ];
               opt = [ ];
@@ -62,6 +81,7 @@
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
+            tree-sitter
             python311
             geckodriver
 
@@ -69,6 +89,7 @@
             vimPlugins.nvim-treesitter-parsers.astro
             python311Packages.python-lsp-server
             statix
+            nodejs_latest
             nodePackages_latest.sql-formatter
             nodePackages_latest.typescript-language-server
             rust-analyzer
