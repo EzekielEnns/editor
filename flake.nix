@@ -39,7 +39,10 @@
                 # nvim-treesitter-parsers.markdown
                 (nvim-treesitter.withPlugins (
                    plugins: with plugins; [
+                    wgsl
                     nix
+                    tsx
+                    toml
                     python
                     astro
                     rust
@@ -113,9 +116,14 @@
             terraform-ls
             nil
              helix
-#            OmniSharp
  #           clangd
             vscode-langservers-extracted
+#for dot net dotnet-sdk_8
+            dotnet-sdk_8
+            msbuild
+            powershell
+            omnisharp-roslyn
+            mono
           ];
         };
       });
