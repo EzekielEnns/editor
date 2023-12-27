@@ -35,10 +35,14 @@
                 pkgs.vimPlugins.cmp-path
                 pkgs.vimPlugins.formatter-nvim 
                 pkgs.vimPlugins.cmp_luasnip
+                pkgs.vimPlugins.vim-vsnip
                 pkgs.vimPlugins.nvim-web-devicons 
                 pkgs.vimPlugins.lualine-nvim
-                pkgs.vimPlugins.which-key-nvim
                 pkgs.vimPlugins.papercolor-theme
+                pkgs.vimPlugins.vim-gitgutter
+                pkgs.vimPlugins.which-key-nvim
+
+                pkgs.vimPlugins.comment-nvim
                 myConfig 
               ];
               opt = [ ];
