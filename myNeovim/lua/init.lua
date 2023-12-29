@@ -12,7 +12,6 @@ vim.cmd([[
         set splitright
         set mouse+=a
         set updatetime=100
-        set clipboard=unnamedplus
         set encoding=utf-8
         set hidden
         set noerrorbells
@@ -46,6 +45,11 @@ vim.cmd([[
         set t_Co=256
         set background=dark
         colorscheme PaperColor
+    
+    "key bindings
+
+        nnoremap  ga  <cmd>e#<CR>
+        vnoremap  ga  <cmd>e#<CR>
 ]])
 require("nvim-web-devicons").setup({})
 
@@ -147,14 +151,21 @@ vim.lsp.set_log_level("off")
 --MAPING
 vim.g.mapleader = " "
 local wk = require("which-key")
-wk.register({
+local leader_binds = {
     ["f"] = {"<cmd>Telescope find_files<CR>","find files"},
     ["b"] = {"<cmd>Telescope buffers<CR>","find buffers"},
     ["/"] = {"<cmd>Telescope live_grep<CR>","find text"},
     ["d"] = {"<cmd>Telescope diagnostics<CR>","find text"},
-    --TODO toggle bkg ["t"] = {"<expr>&background == 'light' ? ':set bg=dark<cr>' : ':set bg=light<cr>'","toggle background"},
+    ["p"] = {'"+p',"find text from clip"},
+    ["P"] = {'"+P',"paste from clip"},
+    ["y"] = {'"+y',"yank from clip"},
+    ["yy"] = {'"+yy',"yank line from clip"},
+    ["Y"] = {'"+yg_',"yank line"},
+    ["tr"] = {"<cmd>setlocal relativenumber!<CR>","toggle relative lines"},
     --TODO toggle relative lines 
-}, {prefix = "<leader>"})
+}
+wk.register(leader_binds, {prefix = "<leader>"})
+wk.register(leader_binds, {prefix = "<leader>",mode = "v"})
 require('Comment').setup()
 --TODO auto pairs
 --TODO select with in brackets
