@@ -103,6 +103,12 @@ require'lspconfig'.terraformls.setup {}
 require'lspconfig'.lua_ls.setup{}
 require'lspconfig'.omnisharp.setup{
     cmd = {"OmniSharp", "--languageserver", "--hostPID",tostring(vim.fn.getpid())},
+    filetype = {'cs'},
+    root_dir = require'lspconfig'.util.root_pattern("*.csproj","*.sln"),
+    settings = {
+        monoPath = vim.fn.system {'which', 'mono'},
+        userModernNet = false,
+    },
 }
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
     pattern = {"*.tf", "*.tfvars"},
