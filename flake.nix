@@ -108,6 +108,8 @@
             myNeovim
 
             # lang servers 
+            ltex-ls
+            texlab
             marksman
             python311Packages.python-lsp-server
             nodePackages_latest.typescript-language-server
@@ -115,10 +117,10 @@
             gopls
             terraform-ls
             nil
-             helix
- #           clangd
+            helix
+            libclang
             vscode-langservers-extracted
-#for dot net dotnet-sdk_8
+            #for dot net dotnet-sdk_8
             dotnet-sdk_8
             msbuild
             powershell
