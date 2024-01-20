@@ -33,10 +33,6 @@
                 nvim-treesitter
                 nvim-treesitter.withAllGrammars
                 nvim-treesitter-textobjects
-                # nvim-treesitter-parsers.astro
-                # nvim-treesitter-parsers.go
-                # nvim-treesitter-parsers.rust
-                # nvim-treesitter-parsers.markdown
                 (nvim-treesitter.withPlugins (
                    plugins: with plugins; [
                     wgsl
@@ -52,27 +48,29 @@
                     go
                     sql
                     markdown
+                    xml
                    ]
                 ))
-
                 nvim-lspconfig 
                 trouble-nvim
                 telescope-nvim
-
                 
                 nvim-cmp
+                cmp-spell
                 cmp-nvim-lsp
                 cmp-buffer
                 cmp-cmdline 
                 cmp-path
-                formatter-nvim 
+
+                luasnip
                 cmp_luasnip
-                vim-vsnip
+
+                formatter-nvim 
                 nvim-web-devicons 
-                lualine-nvim
                 papercolor-theme
                 vim-gitgutter
                 which-key-nvim
+                nvim-autopairs
 
                 comment-nvim
                 myConfig 
@@ -86,46 +84,34 @@
           packages = with pkgs; [
             tree-sitter
             python311
-            geckodriver
+            #geckodriver
 
             python311Packages.ruff-lsp
-            vimPlugins.nvim-treesitter-parsers.astro
-            python311Packages.python-lsp-server
+            csharp-ls
+            lemminx
+
             statix
             nodejs_latest
-            nodePackages_latest.sql-formatter
             nodePackages_latest.typescript-language-server
             rust-analyzer
-            nodePackages_latest.vscode-langservers-extracted
             lua-language-server
-            # formatters 
-            nixfmt
-            yamlfmt
-            yamllint
-            luaformatter
-            nodePackages.prettier
-            git
-            myNeovim
+            nodePackages_latest.pnpm
+
 
             # lang servers 
             ltex-ls
             texlab
             marksman
-            python311Packages.python-lsp-server
             nodePackages_latest.typescript-language-server
             tailwindcss-language-server
             gopls
             terraform-ls
-            nil
-            helix
             libclang
             vscode-langservers-extracted
-            #for dot net dotnet-sdk_8
-            dotnet-sdk_8
-            msbuild
-            powershell
-            omnisharp-roslyn
-            mono
+            
+            #need
+            git
+            myNeovim
           ];
         };
       });

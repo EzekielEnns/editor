@@ -52,6 +52,12 @@ vim.cmd([[
         vnoremap  ga  <cmd>e#<CR>
 ]])
 require("nvim-web-devicons").setup({})
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = true,
+  },
+}
 
 
 
@@ -103,15 +109,8 @@ require'lspconfig'.pylsp.setup {}
 require'lspconfig'.ruff_lsp.setup {}
 require'lspconfig'.terraformls.setup {}
 require'lspconfig'.lua_ls.setup{}
-require'lspconfig'.omnisharp.setup{
-    cmd = {"OmniSharp", "--languageserver", "--hostPID",tostring(vim.fn.getpid())},
-    filetype = {'cs'},
-    root_dir = require'lspconfig'.util.root_pattern("*.csproj","*.sln"),
-    settings = {
-        monoPath = vim.fn.system {'which', 'mono'},
-        userModernNet = false,
-    },
-}
+require'lspconfig'.csharp_ls.setup{}
+require'lspconfig'.lemminx.setup{}
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
     pattern = {"*.tf", "*.tfvars"},
     callback = function() vim.lsp.buf.format() end
@@ -119,12 +118,27 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
 
 --CMP
 local cmp = require('cmp')
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
 cmp.setup({
     sources = {
         {name = 'path'},
         {name = 'nvim_lsp', keyword_length = 1},
         {name = 'buffer', keyword_length = 3},
-        {name = 'vsnip', keyword_length = 2}
+        {name = 'vsnip', keyword_length = 2},
+        { name = 'luasnip' },
+        {
+            name = 'spell',
+            option = {
+                keep_all_entries = false,
+                enable_in_context = function()
+                    return true
+                end,
+            },
+         },
     },
     formatting = {
         fields = {'menu', 'abbr', 'kind'},
@@ -140,6 +154,7 @@ cmp.setup({
             return item
         end
     },
+
     mapping = cmp.mapping.preset.insert({
         ["<TAB>"] = cmp.mapping.select_next_item(),
         ["<S-TAB>"] = cmp.mapping.select_prev_item(),
@@ -149,7 +164,7 @@ cmp.setup({
     }),
     snippet = {
         expand = function(args)
-         vim.fn["vsnip#anonymous"](args.body)
+            require'luasnip'.lsp_expand(args.body)
         end
     }
 })
@@ -175,49 +190,9 @@ local leader_binds = {
 wk.register(leader_binds, {prefix = "<leader>"})
 wk.register(leader_binds, {prefix = "<leader>",mode = "v"})
 require('Comment').setup()
---TODO auto pairs
---TODO select with in brackets
---Markdown images
---    -- MARKDOWN
---    {
---        'img-paste-devs/img-paste.vim',
---        config = function()
---            vim.cmd([[
---                autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
---            ]])
---        end
---    }, -- EDITOR UTILS
---    }, {"windwp/nvim-autopairs", event = "InsertEnter", opts = {}}, {
---require("lualine").setup({
--- options = {
---     icons_enabled = true,
---     theme = "auto",
---     component_separators = {left = "", right = ""},
---     section_separators = {left = "", right = ""},
---     disabled_filetypes = {statusline = {}, winbar = {}},
---     ignore_focus = {},
---     always_divide_middle = true,
---     globalstatus = false,
---     refresh = {statusline = 1000, tabline = 1000, winbar = 1000}
--- },
--- sections = {
---     lualine_a = {"mode"},
---     lualine_b = {"branch", "diff", "diagnostics"},
---     lualine_c = {"filename"},
---     lualine_x = {"encoding", "fileformat", "filetype"},
---     lualine_y = {"progress"},
---     lualine_z = {"location"}
--- },
--- inactive_sections = {
---     lualine_a = {},
---     lualine_b = {},
---     lualine_c = {"filename"},
---     lualine_x = {"location"},
---     lualine_y = {},
---     lualine_z = {}
--- },
--- tabline = {},
--- winbar = {},
--- inactive_winbar = {},
--- extensions = {}
---})
+--TODO add formatters
+require("formatter").setup {}
+require('nvim-autopairs').setup({
+  disable_filetype = { "TelescopePrompt" , "vim" },
+})
+
