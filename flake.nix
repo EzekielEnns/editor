@@ -87,8 +87,8 @@
             #geckodriver
 
             python311Packages.ruff-lsp
-	    dotnet-sdk_8
-            csharp-ls
+    	    dotnet-sdk_7 #TODO try and update version via unstable
+            csharp-ls    #requires 7
             lemminx
 
             nil
