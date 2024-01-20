@@ -99,7 +99,7 @@ require'lspconfig'.tailwindcss.setup {
 require'lspconfig'.ltex.setup{}
 require'lspconfig'.texlab.setup{}
 require'lspconfig'.clangd.setup {}
-require'lspconfig'.statix.setup {}
+require'lspconfig'.nil_ls.setup{}
 require'lspconfig'.marksman.setup {}
 require'lspconfig'.tsserver.setup {}
 require'lspconfig'.eslint.setup {}

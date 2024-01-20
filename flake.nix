@@ -87,10 +87,11 @@
             #geckodriver
 
             python311Packages.ruff-lsp
+	    dotnet-sdk_8
             csharp-ls
             lemminx
 
-            statix
+            nil
             nodejs_latest
             nodePackages_latest.typescript-language-server
             rust-analyzer
