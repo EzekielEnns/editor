@@ -10,7 +10,8 @@ vim.cmd([[
         set autoread
         set splitbelow
         set splitright
-        set mouse+=a
+        "the mouse is evil.... on my laptop
+        set mouse=
         set updatetime=100
         set encoding=utf-8
         set hidden
@@ -158,7 +159,7 @@ cmp.setup({
     mapping = cmp.mapping.preset.insert({
         ["<TAB>"] = cmp.mapping.select_next_item(),
         ["<S-TAB>"] = cmp.mapping.select_prev_item(),
-        ["<>"] = cmp.mapping.select_next_item(),
+        --["<>"] = cmp.mapping.select_next_item(),
         ["<CR>"] = cmp.mapping.confirm({select = false}),
         ["<C-l>"] = cmp.mapping.complete()
     }),

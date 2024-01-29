@@ -2,17 +2,21 @@
   description = "my editor config flake";
   inputs = {
       nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+      nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
   };
-  outputs = { self, nixpkgs, flake-utils, ... }:
+  outputs = { self, nixpkgs, flake-utils, nixpkgs-unstable, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
 
         pkgs = import nixpkgs { inherit system; };
+        upkgs = import nixpkgs-unstable {inherit system;};
         myConfig = pkgs.vimUtils.buildVimPlugin {
           name = "my-config";
           src = ./myNeovim;
           recursive = true;
         };
+# TODO https://github.com/chrisgrieser/nvim-scissors
         # TODO add markdown plugin
         # vim-theme-purify = pkgs.vimUtils.buildVimPlugin {
         #     name= "vim-purify";
@@ -87,13 +91,16 @@
             #geckodriver
 
             python311Packages.ruff-lsp
-    	    dotnet-sdk_7 #TODO try and update version via unstable
-            csharp-ls    #requires 7
+    	    dotnet-sdk_8 #TODO try and update version via unstable
+            upkgs.csharp-ls
+            #use csharp-ls for dotnet 8
             lemminx
 
             nil
             nodejs_latest
             nodePackages_latest.typescript-language-server
+            #weird deps
+            cargo
             rust-analyzer
             lua-language-server
             nodePackages_latest.pnpm
