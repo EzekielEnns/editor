@@ -15,18 +15,23 @@
           name = "my-config";
           src = ./myNeovim;
           recursive = true;
+          patchPhase = ''
+            substituteInPlace lua/init.lua \
+                --replace '@@omnisharp' '${pkgs.omnisharp-roslyn}' \
+                --replace '@@dotnet' '${pkgs.dotnet-sdk_8}'
+          '';
         };
-# TODO https://github.com/chrisgrieser/nvim-scissors
         # TODO add markdown plugin
-        # vim-theme-purify = pkgs.vimUtils.buildVimPlugin {
-        #     name= "vim-purify";
-        #     src = pkgs.fetchFromGitHub {
-        #         repo = "purify";
-        #         owner = "kyoz";
-        #         rev = "70011ccc3225feb2e7bedda36d226adcf221f7ae/vim";
-        #         sha256 = "sha256-QR8O9QtPxrvRKo8PcwSLG3f6z+59xCX3KC6C3VLOMBA=";
-        #     };
-        # };
+        nvim-scissors = pkgs.vimUtils.buildVimPlugin {
+            name= "nvim-scissors";
+            src = pkgs.fetchFromGitHub {
+                repo = "nvim-scissors";
+                owner = "chrisgrieser";
+                rev = "main";
+                url= "https://github.com/chrisgrieser/nvim-scissors";
+                sha256 = "sha256-docfVy5zeBY+qAFSMxAoRaNEJUmjOK9Daby+91GnYMA=";
+            };
+        };
         myNeovim = pkgs.neovim.override {
           configure = {
             customRC = ''
@@ -34,6 +39,7 @@
             '';
             packages.myPlugins = with pkgs.vimPlugins; {
               start = [ 
+                nvim-scissors
                 nvim-treesitter
                 nvim-treesitter.withAllGrammars
                 nvim-treesitter-textobjects
@@ -68,7 +74,7 @@
 
                 luasnip
                 cmp_luasnip
-
+                omnisharp-extended-lsp-nvim
                 formatter-nvim 
                 nvim-web-devicons 
                 papercolor-theme
@@ -91,9 +97,10 @@
             #geckodriver
 
             python311Packages.ruff-lsp
-    	    dotnet-sdk_8 #TODO try and update version via unstable
-            upkgs.csharp-ls
-            #use csharp-ls for dotnet 8
+            #dotnet
+    	    dotnet-sdk_8 
+            omnisharp-roslyn
+
             lemminx
 
             nil

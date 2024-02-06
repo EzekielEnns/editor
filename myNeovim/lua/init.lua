@@ -110,8 +110,15 @@ require'lspconfig'.pylsp.setup {}
 require'lspconfig'.ruff_lsp.setup {}
 require'lspconfig'.terraformls.setup {}
 require'lspconfig'.lua_ls.setup{}
-require'lspconfig'.csharp_ls.setup{}
 require'lspconfig'.lemminx.setup{}
+require'lspconfig'.omnisharp.setup{
+    --https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#omnisharp
+    cmd = {'@@dotnet/dotnet','@@omnisharp/lib/omnisharp-roslyn/OmniSharp.dll'},
+    enable_editorconfig_support = true,
+    handlers = {
+     ["textDocument/definition"] = require('omnisharp_extended').handler,
+    },
+}
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
     pattern = {"*.tf", "*.tfvars"},
     callback = function() vim.lsp.buf.format() end
@@ -171,6 +178,13 @@ cmp.setup({
 })
 vim.diagnostic.config({virtual_text = true})
 vim.lsp.set_log_level("off")
+require("luasnip.loaders.from_vscode").lazy_load { paths = { "~/.config/snippets" } }
+require("scissors").setup ({
+    snippetDir = "~/.config/snippets",
+})
+vim.keymap.set("n", "<leader>se", function() require("scissors").editSnippet() end)
+-- When used in visual mode prefills the selection as body.
+vim.keymap.set({ "n", "x" }, "<leader>sa", function() require("scissors").addNewSnippet() end)
 
 --MAPING
 vim.g.mapleader = " "
