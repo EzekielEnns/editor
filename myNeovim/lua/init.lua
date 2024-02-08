@@ -108,6 +108,7 @@ require 'lspconfig'.nil_ls.setup {}
 require 'lspconfig'.marksman.setup {}
 require 'lspconfig'.tsserver.setup {}
 require 'lspconfig'.quick_lint_js.setup {}
+require 'lspconfig'.kotlin_language_server.setup {}
 require 'lspconfig'.eslint.setup {
     -- on_attach = function(_, bufnr)
     --   vim.api.nvim_create_autocmd("BufWritePre", {

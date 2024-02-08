@@ -69,6 +69,7 @@
                     sql
                     markdown
                     xml
+                    kotlin
                    ]
                 ))
                 nvim-lspconfig 
@@ -111,6 +112,7 @@
     	    dotnet-sdk_8 
             omnisharp-roslyn
 
+            kotlin-language-server
             lemminx
             vscode-langservers-extracted
             quick-lint-js
