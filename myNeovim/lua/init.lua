@@ -225,3 +225,7 @@ require("formatter").setup {}
 require('nvim-autopairs').setup({
     disable_filetype = { "TelescopePrompt", "vim" },
 })
+--TODO https://github.com/m4xshen/hardtime.nvim/
+require("hardtime").setup({
+    max_time = 5000,
+})

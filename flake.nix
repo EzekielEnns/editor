@@ -75,7 +75,7 @@
                 nvim-lspconfig 
                 trouble-nvim
                 telescope-nvim
-                
+                hardtime-nvim               
                 nvim-cmp
                 cmp-spell
                 cmp-nvim-lsp
