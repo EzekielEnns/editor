@@ -60,13 +60,25 @@ require 'nvim-treesitter.configs'.setup {
         additional_vim_regex_highlighting = true,
     },
 }
-
+ require('annotate').setup({
+      -- sign column symbol to use
+      annot_sign = '󰍕',
+      -- highlight group for symbol
+      annot_sign_hl = 'Comment',
+      -- highlight group for currently active annotation
+      annot_sign_hl_current = 'FloatBorder',
+      -- width of floating annotation window
+      annot_win_width = 25,
+      -- padding to the right of the floating annotation window
+      annot_win_padding = 2
+    })
+--
 --resiser rules
-vim.keymap.set('n', '<C-w>R', '<cmd>WinResizerStartResize<cr>', {});
-vim.keymap.set('n', '<C-w>F', '<cmd>WinResizerStartFocus<cr>', {});
-vim.keymap.set('n', '<C-w>M', '<cmd>WinResizerStartMove<cr>', {});
+vim.keymap.set('n', '<c-w>r', '<cmd>winresizerstartresize<cr>', {});
+vim.keymap.set('n', '<c-w>f', '<cmd>winresizerstartfocus<cr>', {});
+vim.keymap.set('n', '<c-w>m', '<cmd>winresizerstartmove<cr>', {});
 
---LSP
+--lsp
 require('trouble').setup({})
 local lspconfig = require('lspconfig')
 local lsp_defaults = lspconfig.util.default_config
@@ -215,7 +227,11 @@ local leader_binds = {
     ["yy"] = { '"+yy', "yank line from clip" },
     ["Y"] = { '"+yg_', "yank line" },
     ["tr"] = { "<cmd>setlocal relativenumber!<CR>", "toggle relative lines" },
+    ["a"] = { "<cmd>lua require('annotate').delete_annotation()<cr>", "delete annoation" },
+    ["A"] = { "<cmd>lua require('annotate').create_annotation()<cr>", "add annotation" },
     --TODO toggle relative lines
+-- vim.keymap.set('n', '<leader>A',, {})
+-- vim.keymap.set('n', '<leader>a',, {})
 }
 wk.register(leader_binds, { prefix = "<leader>" })
 wk.register(leader_binds, { prefix = "<leader>", mode = "v" })

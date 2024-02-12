@@ -41,6 +41,16 @@
               start = [ 
                 # nvim-scissors
                 (pkgs.vimUtils.buildVimPlugin {
+                    name = "annotate";
+                    dependencies=[sqlite-lua];
+                    src = pkgs.fetchFromGitHub {
+                        repo = "annotate.nvim";
+                        owner = "winter-again";
+                        rev = "main";
+                        sha256 = "sha256-buhZNEP3rT9oK3EDSMXMO1125D0SxEewqOtyMiXNPf0=";#"sha256-5LR9A23BvpCBY9QVSF9PadRuDSBjv+knHSmdQn/3mH0=";
+                    };
+                 })
+                (pkgs.vimUtils.buildVimPlugin {
                     name = "winresizer";
                     src = pkgs.fetchFromGitHub {
                         repo = "winresizer";
