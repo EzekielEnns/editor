@@ -63,6 +63,7 @@ require 'nvim-treesitter.configs'.setup {
  require('annotate').setup({
       -- sign column symbol to use
       annot_sign = '󰍕',
+      db_uri = vim.fn.getcwd() .. '/.annotations_db',
       -- highlight group for symbol
       annot_sign_hl = 'Comment',
       -- highlight group for currently active annotation
@@ -211,6 +212,36 @@ vim.keymap.set("n", "<leader>se", function() require("scissors").editSnippet() e
 -- When used in visual mode prefills the selection as body.
 vim.keymap.set({ "n", "x" }, "<leader>sa", function() require("scissors").addNewSnippet() end)
 
+--require'telescope'.load_extension('project')
+local pickers = require "telescope.pickers"
+local finders = require "telescope.finders"
+local conf = require("telescope.config").values
+local actions = require "telescope.actions"
+local action_state = require "telescope.actions.state"
+local folders  = function(opts)
+  opts = opts or {}
+  pickers.new(opts, {
+    prompt_title = "Pick Directory",
+    finder = finders.new_table {
+      results = vim.split(vim.fn.glob(vim.fn.getcwd() .. "/*/"), '\n', {trimemtpy=true})
+    },
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function (prompt_bufnr,map)
+        actions.select_default:replace(function ()
+           actions.close(prompt_bufnr)
+           local selection = action_state.get_selected_entry()
+           print(vim.inspect(selection))
+           vim.api.nvim_put({ selection[1] }, "", false, true)
+           --vim.prety_print(selection)
+           -- vim.api.nvim_set_current_dir(selection)
+        end)
+        return true
+    end
+  }):find()
+end
+
+-- to execute the function
+_G.test = folders
 --MAPING
 vim.g.mapleader = " "
 local wk = require("which-key")
@@ -221,6 +252,7 @@ local leader_binds = {
     ["d"] = { "<cmd>Telescope diagnostics<CR>", "find text" },
     ["s"] = { "<cmd>Telescope lsp_document_symbols<CR>", "find symbol" },
     ["w"] = { "<cmd>Telescope lsp_workspace_symbols<CR>", "find symbol workspace" },
+    ["c"] = { "<cmd>:lua require'telescope'.extensions.project.project{}<CR>", "find symbol workspace" },
     ["p"] = { '"+p', "find text from clip" },
     ["P"] = { '"+P', "paste from clip" },
     ["y"] = { '"+y', "yank from clip" },

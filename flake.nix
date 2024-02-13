@@ -21,17 +21,6 @@
                 --replace '@@dotnet' '${pkgs.dotnet-sdk_8}'
           '';
         };
-        # TODO add markdown plugin
-        # nvim-scissors = pkgs.vimUtils.buildVimPlugin {
-        #     name= "nvim-scissors";
-        #     src = pkgs.fetchFromGitHub {
-        #         repo = "nvim-scissors";
-        #         owner = "chrisgrieser";
-        #         rev = "main";
-        #         url= "https://github.com/chrisgrieser/nvim-scissors";
-        #         sha256 = "sha256-docfVy5zeBY+qAFSMxAoRaNEJUmjOK9Daby+91GnYMA=";
-        #     };
-        # };
         myNeovim = pkgs.neovim.override {
           configure = {
             customRC = ''
@@ -39,15 +28,14 @@
             '';
             packages.myPlugins = with pkgs.vimPlugins; {
               start = [ 
-                # nvim-scissors
                 (pkgs.vimUtils.buildVimPlugin {
                     name = "annotate";
                     dependencies=[sqlite-lua];
                     src = pkgs.fetchFromGitHub {
                         repo = "annotate.nvim";
                         owner = "winter-again";
-                        rev = "main";
-                        sha256 = "sha256-buhZNEP3rT9oK3EDSMXMO1125D0SxEewqOtyMiXNPf0=";#"sha256-5LR9A23BvpCBY9QVSF9PadRuDSBjv+knHSmdQn/3mH0=";
+                        rev = "customize-db-location";
+                        sha256 = "sha256-Y7WdxHsYAjQgt9dxmsJCmS4X/myJ5SweBUxyuS/QbyM=";
                     };
                  })
                 (pkgs.vimUtils.buildVimPlugin {
@@ -56,7 +44,6 @@
                         repo = "winresizer";
                         owner = "simeji";
                         rev = "master";
-                        #url = "https://github.com/simeji/winresizer";
                         sha256 = "sha256-5LR9A23BvpCBY9QVSF9PadRuDSBjv+knHSmdQn/3mH0=";
                     };
                  })
