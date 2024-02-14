@@ -29,16 +29,6 @@
             packages.myPlugins = with pkgs.vimPlugins; {
               start = [ 
                 (pkgs.vimUtils.buildVimPlugin {
-                    name = "annotate";
-                    dependencies=[sqlite-lua];
-                    src = pkgs.fetchFromGitHub {
-                        repo = "annotate.nvim";
-                        owner = "winter-again";
-                        rev = "customize-db-location";
-                        sha256 = "sha256-Y7WdxHsYAjQgt9dxmsJCmS4X/myJ5SweBUxyuS/QbyM=";
-                    };
-                 })
-                (pkgs.vimUtils.buildVimPlugin {
                     name = "winresizer";
                     src = pkgs.fetchFromGitHub {
                         repo = "winresizer";

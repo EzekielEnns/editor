@@ -60,24 +60,10 @@ require 'nvim-treesitter.configs'.setup {
         additional_vim_regex_highlighting = true,
     },
 }
- require('annotate').setup({
-      -- sign column symbol to use
-      annot_sign = '󰍕',
-      db_uri = vim.fn.getcwd() .. '/.annotations_db',
-      -- highlight group for symbol
-      annot_sign_hl = 'Comment',
-      -- highlight group for currently active annotation
-      annot_sign_hl_current = 'FloatBorder',
-      -- width of floating annotation window
-      annot_win_width = 25,
-      -- padding to the right of the floating annotation window
-      annot_win_padding = 2
-    })
---
 --resiser rules
-vim.keymap.set('n', '<c-w>r', '<cmd>winresizerstartresize<cr>', {});
-vim.keymap.set('n', '<c-w>f', '<cmd>winresizerstartfocus<cr>', {});
-vim.keymap.set('n', '<c-w>m', '<cmd>winresizerstartmove<cr>', {});
+vim.keymap.set('n', '<c-w>r', '<cmd>WinResizerStartResize<cr>', {});
+vim.keymap.set('n', '<c-w>f', '<cmd>WinResizerStartFocus<cr>', {});
+vim.keymap.set('n', '<c-w>m', '<cmd>WinResizerStartMove<cr>', {});
 
 --lsp
 require('trouble').setup({})
@@ -140,6 +126,7 @@ require 'lspconfig'.lemminx.setup {}
 require 'lspconfig'.omnisharp.setup {
     --https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#omnisharp
     cmd = { '@@dotnet/dotnet', '@@omnisharp/lib/omnisharp-roslyn/OmniSharp.dll' },
+    enable_roslyn_analyzers = true,
     enable_editorconfig_support = true,
     handlers = {
         ["textDocument/definition"] = require('omnisharp_extended').handler,
@@ -218,22 +205,23 @@ local finders = require "telescope.finders"
 local conf = require("telescope.config").values
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
+local dirs = vim.split(vim.fn.glob(vim.fn.getcwd() .. "/*/"), '\n', {trimemtpy=true})
+table.insert(dirs,vim.fn.getcwd())
 local folders  = function(opts)
   opts = opts or {}
   pickers.new(opts, {
     prompt_title = "Pick Directory",
     finder = finders.new_table {
-      results = vim.split(vim.fn.glob(vim.fn.getcwd() .. "/*/"), '\n', {trimemtpy=true})
-    },
+      results = dirs
+  },
     sorter = conf.generic_sorter(opts),
     attach_mappings = function (prompt_bufnr,map)
         actions.select_default:replace(function ()
            actions.close(prompt_bufnr)
            local selection = action_state.get_selected_entry()
            print(vim.inspect(selection))
-           vim.api.nvim_put({ selection[1] }, "", false, true)
-           --vim.prety_print(selection)
-           -- vim.api.nvim_set_current_dir(selection)
+           --vim.api.nvim_put({ selection[1] }, "", false, true)
+           vim.api.nvim_set_current_dir(selection[1])
         end)
         return true
     end
@@ -241,7 +229,7 @@ local folders  = function(opts)
 end
 
 -- to execute the function
-_G.test = folders
+_G.folder_finder = folders
 --MAPING
 vim.g.mapleader = " "
 local wk = require("which-key")
@@ -249,18 +237,16 @@ local leader_binds = {
     ["f"] = { "<cmd>Telescope find_files<CR>", "find files" },
     ["b"] = { "<cmd>Telescope buffers<CR>", "find buffers" },
     ["/"] = { "<cmd>Telescope live_grep<CR>", "find text" },
-    ["d"] = { "<cmd>Telescope diagnostics<CR>", "find text" },
+    ["c"] = { "<cmd>Telescope diagnostics<CR>", "find text" },
     ["s"] = { "<cmd>Telescope lsp_document_symbols<CR>", "find symbol" },
     ["w"] = { "<cmd>Telescope lsp_workspace_symbols<CR>", "find symbol workspace" },
-    ["c"] = { "<cmd>:lua require'telescope'.extensions.project.project{}<CR>", "find symbol workspace" },
+    ["d"] = {"<cmd>:lua folder_finder()<cr>","find Directory"},
     ["p"] = { '"+p', "find text from clip" },
     ["P"] = { '"+P', "paste from clip" },
     ["y"] = { '"+y', "yank from clip" },
     ["yy"] = { '"+yy', "yank line from clip" },
     ["Y"] = { '"+yg_', "yank line" },
     ["tr"] = { "<cmd>setlocal relativenumber!<CR>", "toggle relative lines" },
-    ["a"] = { "<cmd>lua require('annotate').delete_annotation()<cr>", "delete annoation" },
-    ["A"] = { "<cmd>lua require('annotate').create_annotation()<cr>", "add annotation" },
     --TODO toggle relative lines
 -- vim.keymap.set('n', '<leader>A',, {})
 -- vim.keymap.set('n', '<leader>a',, {})
