@@ -40,7 +40,7 @@ vim.cmd([[
         set confirm
 
     "searching
-        set nohlsearch
+        set hls
         set incsearch
 
         set t_Co=256
