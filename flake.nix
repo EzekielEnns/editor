@@ -1,4 +1,5 @@
 {
+    #TODO add prettier vim
   description = "my editor config flake";
   inputs = {
       nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
@@ -38,6 +39,7 @@
                     };
                  })
                 nvim-treesitter
+                vim-prettier
                 nvim-treesitter.withAllGrammars
                 nvim-treesitter-textobjects
                 (nvim-treesitter.withPlugins (
@@ -122,6 +124,7 @@
             gopls
             terraform-ls
             libclang
+            nodePackages.prettier
             vscode-langservers-extracted
             
             #need
