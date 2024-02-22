@@ -123,6 +123,7 @@ require 'lspconfig'.ruff_lsp.setup {}
 require 'lspconfig'.terraformls.setup {}
 require 'lspconfig'.lua_ls.setup {}
 require 'lspconfig'.lemminx.setup {}
+require'lspconfig'.csharp_ls.setup{}
 require 'lspconfig'.omnisharp.setup {
     --https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#omnisharp
     cmd = { '@@dotnet/dotnet', '@@omnisharp/lib/omnisharp-roslyn/OmniSharp.dll' },
@@ -132,6 +133,7 @@ require 'lspconfig'.omnisharp.setup {
         ["textDocument/definition"] = require('omnisharp_extended').handler,
     },
 }
+
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     pattern = { "*.tf", "*.tfvars" },
     callback = function() vim.lsp.buf.format() end
