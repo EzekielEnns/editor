@@ -101,13 +101,18 @@
     	    dotnet-sdk_8 
             omnisharp-roslyn
             upkgs.csharp-ls
+
             kotlin-language-server
             lemminx
             vscode-langservers-extracted
             quick-lint-js
             nil
+
             nodejs_latest
             nodePackages_latest.typescript-language-server
+            nodePackages_latest.eslint
+            nodePackages_latest.typescript-language-server
+
             #weird deps
             cargo
             rust-analyzer
@@ -119,7 +124,6 @@
             ltex-ls
             texlab
             marksman
-            nodePackages_latest.typescript-language-server
             tailwindcss-language-server
             gopls
             terraform-ls
