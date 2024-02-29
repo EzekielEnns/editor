@@ -47,10 +47,6 @@ vim.cmd([[
         set background=dark
         colorscheme PaperColor
 
-    "key bindings
-
-        nnoremap  ga  <cmd>e#<CR>
-        vnoremap  ga  <cmd>e#<CR>
         let g:winresizer_enable = 1
 ]])
 require("nvim-web-devicons").setup({})
@@ -96,14 +92,7 @@ require 'lspconfig'.marksman.setup {}
 require 'lspconfig'.tsserver.setup {}
 require 'lspconfig'.quick_lint_js.setup {}
 require 'lspconfig'.kotlin_language_server.setup {}
-require 'lspconfig'.eslint.setup {
-    -- on_attach = function(_, bufnr)
-    --   vim.api.nvim_create_autocmd("BufWritePre", {
-    --     buffer = bufnr,
-    --     command = "EslintFixAll",
-    --   })
-    -- end,
-}
+require 'lspconfig'.eslint.setup {}
 require 'lspconfig'.gopls.setup {}
 require 'lspconfig'.rust_analyzer.setup {}
 require 'lspconfig'.pylsp.setup {}
