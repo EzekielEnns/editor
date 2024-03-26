@@ -73,6 +73,7 @@
 
                 luasnip
                 cmp_luasnip
+                lsp_signature-nvim
                 omnisharp-extended-lsp-nvim
                 formatter-nvim 
                 nvim-web-devicons 

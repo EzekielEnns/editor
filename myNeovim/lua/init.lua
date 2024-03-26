@@ -186,7 +186,15 @@ require 'lspconfig'.omnisharp.setup {
         ["textDocument/definition"] = require('omnisharp_extended').handler,
     },
 }
-
+require "lsp_signature".setup({
+    bind = true, -- This is mandatory, otherwise border config won't get registered.
+    hint_enable = true,
+    toggle_key = "<M-f>",
+    floating_window = false,
+    handler_opts = {
+        border = "shadow"
+    }
+})
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     pattern = { "*.tf", "*.tfvars" },
     callback = function() vim.lsp.buf.format() end
@@ -220,9 +228,9 @@ require('telescope').setup {
         },
         mappings = {
         } -- mappings
-    },  -- defaults
+    },    -- defaults
     ...
-}       -- telescope setup
+}         -- telescope setup
 local pickers = require "telescope.pickers"
 local finders = require "telescope.finders"
 local conf = require("telescope.config").values
@@ -265,6 +273,7 @@ local leader_binds = {
     ["w"] = { "<cmd>Telescope lsp_workspace_symbols<CR>", "find symbol workspace" },
     ["cd"] = { "<cmd>:lua folder_finder()<cr>", "find Directory" },
 
+    ["h"] = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "lsp sig help" },
     ["lh"] = { "<cmd>lua vim.lsp.buf.hover()<cr>", "hover" },
     ["lH"] = { "<cmd>lua vim.diagnostic.open_float()<cr>", "diagnostic" },
     ["ls"] = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "signature" },
