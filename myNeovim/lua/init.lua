@@ -48,6 +48,8 @@ vim.cmd([[
         colorscheme PaperColor
 
         let g:winresizer_enable = 1
+    "make WinSeparator invisible
+        highlight WinSeparator ctermbg=none guifg=bg   
 ]])
 require("nvim-web-devicons").setup({})
 require 'nvim-treesitter.configs'.setup {
