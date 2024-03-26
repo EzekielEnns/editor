@@ -74,7 +74,7 @@ cmp.setup({
         { name = 'path' },
         { name = 'nvim_lsp', keyword_length = 1 },
         { name = 'buffer',   keyword_length = 3 },
-        { name = 'vsnip',    keyword_length = 2 },
+        --{ name = 'vsnip',    keyword_length = 2 },
         { name = 'luasnip' },
         {
             name = 'spell',
@@ -91,7 +91,7 @@ cmp.setup({
         format = function(entry, item)
             local menu_icon = {
                 nvim_lsp = 'λ',
-                vsnip = '⋗',
+                luasnip= '⋗',
                 buffer = 'Ω',
                 path = '🖫'
             }
@@ -111,7 +111,7 @@ cmp.setup({
     snippet = {
         expand = function(args)
             require 'luasnip'.lsp_expand(args.body)
-            vim.fn["vsnip#anonymous"](args.body)
+            --vim.fn["vsnip#anonymous"](args.body)
         end
     },
     window = {
